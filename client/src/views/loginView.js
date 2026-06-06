@@ -1,6 +1,6 @@
 import { getUsers } from '@/services/users.service.js';
 import { createSession } from '@/services/auth.service.js';
-// import Swal from 'sweetalert2';
+import Swal from 'sweetalert2';
 
 
 export function loginView() {
@@ -28,7 +28,7 @@ export function loginView() {
             required
             class="border w-full p-2 rounded mb-4"
           >
-          <button type="submit" class="bg-blue-600 text-white w-full py-2 rounded">
+          <button type="submit" class="bg-blue-600 text-white w-full py-2 rounded hover:bg-blue-700 transition">
             Ingresar
           </button>
         </form>
@@ -49,43 +49,31 @@ export const initLogin = () => {
       const password = data.get("password");
 
       try {
-        // Primero obtenemos todos los usuarios y buscamos coincidencia
         const users = await getUsers();
         const userMatch = users.find(u => u.email === email && u.password === password);
 
         if (userMatch) {
-          console.log('Login exitoso:', userMatch);
-
-          // Si el login es exitoso, se guarda la sesión activa en el Storage
           createSession(userMatch);
 
-          // Se limpia el formulario
           loginForm.reset();
 
-          // Navegamos al dashboard mediante History API
-          // Cambia la URL sin recargar la página y dispara manualmente el evento 'popstate'
-          // para que el enrutador de la SPA detecte el cambio y renderice la nueva vista.
           history.pushState(null, null, '/home');
           window.dispatchEvent(new Event('popstate'));
 
         } else {
-          // ----------------------------------------
-          // ERROR DE CREDENCIALES
-          // ----------------------------------------
-          console.error('Credenciales incorrectas');
-          // Swal.fire({
-          //   icon: 'error',
-          //   title: 'Error',
-          //   text: 'Correo o contraseña incorrectos. Intentalo de nuevo.'
-          // });
+          Swal.fire({
+            icon: 'error',
+            title: 'Error',
+            text: 'Correo o contraseña incorrectos. Inténtalo de nuevo.'
+          });
         }
       } catch (error) {
         console.error('Error durante el login:', error);
-        // Swal.fire({
-        //   icon: 'error',
-        //   title: 'Error de conexión',
-        //   text: 'No se pudo conectar con el servidor. Intentalo de nuevo más tarde.'
-        // });
+        Swal.fire({
+          icon: 'error',
+          title: 'Error de conexión',
+          text: 'No se pudo conectar con el servidor. Inténtalo de nuevo más tarde.'
+        });
       }
     });
   }

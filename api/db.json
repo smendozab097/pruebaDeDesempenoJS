@@ -1,47 +1,48 @@
 {
   "users": [
     {
-      "id": 1,
+      "id": "1",
       "email": "admin@test.com",
       "password": "A123456",
       "role": "admin",
       "name": "Administrador"
     },
     {
-      "id": 2,
+      "id": "2",
       "email": "user@test.com",
       "password": "A123456",
       "role": "user",
       "name": "Usuario"
     },
     {
-      "id": 3,
+      "id": "3",
       "email": "user2@test.com",
       "password": "A123456",
       "role": "user",
       "name": "Usuario 2"
     }
   ],
-  "reservations": [
+  "funciones": [
     {
-      "id": 1,
-      "userId": 2,
-      "workspace": "Sala A",
-      "date": "2026-01-15",
-      "startHour": "08:00",
-      "endHour": "09:00",
-      "reason": "Sprint Planning",
-      "status": "pending"
+      "id": "1",
+      "pelicula": "Inception",
+      "sala": "Sala IMAX",
+      "fecha": "2026-06-10",
+      "hora": "18:00",
+      "capacidadTotal": 100,
+      "cuposDisponibles": 100,
+      "estado": "Activa"
     },
     {
-      "id": 2,
-      "userId": 3,
-      "workspace": "Sala B",
-      "date": "2026-01-15",
-      "startHour": "10:00",
-      "endHour": "11:00",
-      "reason": "Daily Meeting",
-      "status": "approved"
+      "id": "2",
+      "pelicula": "Interstellar",
+      "sala": "Sala 3D",
+      "fecha": "2026-06-11",
+      "hora": "20:00",
+      "capacidadTotal": 80,
+      "cuposDisponibles": 80,
+      "estado": "Activa"
     }
-  ]
+  ],
+  "reservations": []
 }
