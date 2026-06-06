@@ -4,7 +4,7 @@ import { getReservations, updateReservation } from "@/services/reservations.serv
 import { getFunciones, updateFuncion } from "@/services/funciones.service";
 import Swal from 'sweetalert2';
 
-export function reservationsView() {
+export function reservationListView() {
   const user = getSession();
   const isAdmin = user?.role === 'admin';
 
@@ -42,7 +42,7 @@ export function reservationsView() {
   `;
 }
 
-export const initReservations = async () => {
+export const initReservationList = async () => {
   const tbody = document.getElementById("reservationsTableBody");
   const user = getSession();
   if (!tbody || !user) return;
@@ -51,13 +51,16 @@ export const initReservations = async () => {
   const loadTable = async () => {
     try {
       const reservations = await getReservations(isAdmin ? null : user.id);
-      
+
       if (reservations.length === 0) {
         tbody.innerHTML = `<tr><td colspan="${isAdmin ? 7 : 6}" class="p-4 text-center text-gray-500">No tienes reservas.</td></tr>`;
         return;
       }
 
-      tbody.innerHTML = reservations.map(r => `
+      let htmlContent = "";
+      for (let i = 0; i < reservations.length; i++) {
+        const r = reservations[i];
+        htmlContent += `
         <tr class="border-b hover:bg-gray-50 transition">
           <td class="p-4 text-sm text-gray-500">#${r.id}</td>
           ${isAdmin ? `<td class="p-4 text-sm">${r.userId}</td>` : ''}
@@ -66,8 +69,8 @@ export const initReservations = async () => {
           <td class="p-4">${r.fechaReserva}</td>
           <td class="p-4">
             <span class="px-2 py-1 rounded-full text-xs font-semibold 
-              ${r.status === 'Confirmada' ? 'bg-green-100 text-green-700' : 
-                r.status === 'Pendiente' ? 'bg-yellow-100 text-yellow-700' : 'bg-red-100 text-red-700'}">
+              ${r.status === 'Confirmada' ? 'bg-green-100 text-green-700' :
+          r.status === 'Pendiente' ? 'bg-yellow-100 text-yellow-700' : 'bg-red-100 text-red-700'}">
               ${r.status}
             </span>
           </td>
@@ -79,7 +82,9 @@ export const initReservations = async () => {
             ` : '<span class="text-gray-400 text-sm">Cancelada</span>'}
           </td>
         </tr>
-      `).join('');
+        `;
+      }
+      tbody.innerHTML = htmlContent;
 
       // Add event listeners for canceling
       document.querySelectorAll('.btn-cancel').forEach(btn => {

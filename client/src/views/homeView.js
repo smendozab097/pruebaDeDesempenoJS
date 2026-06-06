@@ -35,13 +35,16 @@ export const initHome = async () => {
   const loadFunciones = async () => {
     try {
       const funciones = await getFunciones();
-      
+
       if (funciones.length === 0) {
         container.innerHTML = "<p class='col-span-full text-center text-gray-500 py-8'>No hay funciones disponibles en este momento.</p>";
         return;
       }
 
-      container.innerHTML = funciones.map(f => `
+      let htmlContent = "";
+      for (let i = 0; i < funciones.length; i++) {
+        const f = funciones[i];
+        htmlContent += `
         <div class="bg-white rounded-xl shadow-md overflow-hidden flex flex-col">
           <div class="p-5 flex-1">
             <h3 class="font-bold text-xl mb-2">${f.pelicula}</h3>
@@ -65,7 +68,9 @@ export const initHome = async () => {
             </div>
           ` : ''}
         </div>
-      `).join('');
+        `;
+      }
+      container.innerHTML = htmlContent;
 
       // Add event listeners for reservations
       if (user.role === 'user') {
@@ -73,8 +78,8 @@ export const initHome = async () => {
           btn.addEventListener('click', async (e) => {
             const id = e.target.getAttribute('data-id');
             const disponibles = parseInt(e.target.getAttribute('data-cupos'));
-            
-            const { value: cantidad } = await Swal.fire({
+
+            const result = await Swal.fire({
               title: 'Reservar Entradas',
               input: 'number',
               inputLabel: 'Cantidad de entradas a reservar',
@@ -90,6 +95,8 @@ export const initHome = async () => {
               }
             });
 
+            const cantidad = result.value;
+
             if (cantidad) {
               const qty = parseInt(cantidad);
               try {
@@ -98,7 +105,7 @@ export const initHome = async () => {
                 if (funcion.cuposDisponibles < qty) {
                   return Swal.fire('Error', 'No hay suficientes cupos.', 'error');
                 }
-                
+
                 // Update cupos
                 funcion.cuposDisponibles -= qty;
                 await updateFuncion(id, funcion);

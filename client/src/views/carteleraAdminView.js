@@ -2,7 +2,7 @@ import Sidebar from "@/components/Sidebar";
 import { getFunciones, createFuncion, updateFuncion, deleteFuncion } from "@/services/funciones.service";
 import Swal from 'sweetalert2';
 
-export function adminFunctionsView() {
+export function carteleraAdminView() {
   return `
     <div class="flex">
       ${Sidebar()}
@@ -39,20 +39,23 @@ export function adminFunctionsView() {
   `;
 }
 
-export const initAdminFunctions = async () => {
+export const initCarteleraAdmin = async () => {
   const tbody = document.getElementById("functionsTableBody");
   if (!tbody) return;
 
   const loadTable = async () => {
     try {
       const funciones = await getFunciones();
-      
+
       if (funciones.length === 0) {
         tbody.innerHTML = `<tr><td colspan="6" class="p-4 text-center text-gray-500">No hay funciones registradas.</td></tr>`;
         return;
       }
 
-      tbody.innerHTML = funciones.map(f => `
+      let htmlContent = "";
+      for (let i = 0; i < funciones.length; i++) {
+        const f = funciones[i];
+        htmlContent += `
         <tr class="border-b hover:bg-gray-50 transition">
           <td class="p-4 font-medium">${f.pelicula}</td>
           <td class="p-4">${f.sala}</td>
@@ -68,7 +71,9 @@ export const initAdminFunctions = async () => {
             <button class="btn-delete text-red-600 hover:text-red-800 mx-2" data-id="${f.id}">Eliminar</button>
           </td>
         </tr>
-      `).join('');
+        `;
+      }
+      tbody.innerHTML = htmlContent;
 
       // Add event listeners
       document.querySelectorAll('.btn-edit').forEach(btn => {
@@ -86,7 +91,7 @@ export const initAdminFunctions = async () => {
 
   const showFunctionModal = async (funcion = null) => {
     const isEdit = !!funcion;
-    const { value: formValues } = await Swal.fire({
+    const result = await Swal.fire({
       title: isEdit ? 'Editar Función' : 'Nueva Función',
       html: `
         <input id="swal-pelicula" class="swal2-input" placeholder="Película" value="${funcion?.pelicula || ''}">
@@ -112,6 +117,8 @@ export const initAdminFunctions = async () => {
         }
       }
     });
+
+    const formValues = result.value;
 
     if (formValues) {
       if (!formValues.pelicula || !formValues.sala || !formValues.fecha || !formValues.hora || isNaN(formValues.capacidadTotal)) {

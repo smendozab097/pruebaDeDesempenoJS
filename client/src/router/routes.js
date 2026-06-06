@@ -1,7 +1,7 @@
 import { homeView, initHome } from "@/views/homeView";
 import { loginView, initLogin } from "@/views/loginView";
-import { adminFunctionsView, initAdminFunctions } from "@/views/adminFunctionsView";
-import { reservationsView, initReservations } from "@/views/reservationsView";
+import { carteleraAdminView, initCarteleraAdmin } from "@/views/carteleraAdminView";
+import { reservationListView, initReservationList } from "@/views/reservationListView";
 
 const routes = {
     "/": {
@@ -23,20 +23,20 @@ const routes = {
         allowedRoles: ["admin", "user"]
     },
     "/funciones": {
-        render: adminFunctionsView,
-        init: initAdminFunctions,
+        render: carteleraAdminView,
+        init: initCarteleraAdmin,
         requiresAuth: true,
         allowedRoles: ["admin"]
     },
     "/reservas": {
-        render: reservationsView,
-        init: initReservations,
+        render: reservationListView,
+        init: initReservationList,
         requiresAuth: true,
         allowedRoles: ["admin"]
     },
     "/mis-reservas": {
-        render: reservationsView,
-        init: initReservations,
+        render: reservationListView,
+        init: initReservationList,
         requiresAuth: true,
         allowedRoles: ["user"]
     }

@@ -25,24 +25,63 @@
   "funciones": [
     {
       "id": "1",
-      "pelicula": "Inception",
-      "sala": "Sala IMAX",
+      "pelicula": "Soy Leyenda",
+      "sala": "Sala 1 - Ultra",
       "fecha": "2026-06-10",
       "hora": "18:00",
       "capacidadTotal": 100,
-      "cuposDisponibles": 100,
+      "cuposDisponibles": 95,
       "estado": "Activa"
     },
     {
       "id": "2",
       "pelicula": "Interstellar",
-      "sala": "Sala 3D",
+      "sala": "Sala 5 - 3D",
       "fecha": "2026-06-11",
       "hora": "20:00",
       "capacidadTotal": 80,
-      "cuposDisponibles": 80,
+      "cuposDisponibles": 70,
+      "estado": "Activa"
+    },
+    {
+      "id": "3",
+      "pelicula": "Project Hail Mary",
+      "sala": "Sala 3",
+      "fecha": "2026-06-11",
+      "hora": "16:00",
+      "capacidadTotal": 80,
+      "cuposDisponibles": 65,
       "estado": "Activa"
     }
   ],
-  "reservations": []
+  "reservations": [
+    {
+      "userId": "2",
+      "funcionId": "1",
+      "pelicula": "Soy Leyenda",
+      "cantidad": 5,
+      "fechaReserva": "2026-06-06",
+      "status": "Confirmada",
+      "id": "K6ds7ns-j7c"
+    },
+    {
+      "userId": "2",
+      "funcionId": "2",
+      "pelicula": "Interstellar",
+      "cantidad": 10,
+      "fechaReserva": "2026-06-06",
+      "status": "Confirmada",
+      "id": "KK1qxoOU_pw"
+    },
+    {
+      "userId": "3",
+      "funcionId": "3",
+      "pelicula": "Project Hail Mary",
+      "cantidad": 15,
+      "fechaReserva": "2026-06-06",
+      "status": "Confirmada",
+      "id": "Zq5yfq0Jams"
+    }
+  ],
+  "$schema": "./node_modules/json-server/schema.json"
 }

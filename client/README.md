@@ -57,7 +57,7 @@ npm run dev
     │   ├── components (Reusable UI parts like Sidebar)
     │   ├── router (SPA Routing logic and guards)
     │   ├── services (API call logic)
-    │   ├── views (Pages: Login, Home, Admin, Reservations)
+    │   ├── views (Pages: loginView, homeView, carteleraAdminView, reservationListView)
     │   ├── main.js (Entry point)
     │   └── style.css
     ├── index.html
@@ -82,3 +82,4 @@ npm run dev
 * **Routing:** Implemented using the History API without page reloads. Includes route guards based on user roles and authentication status.
 * **Styling:** TailwindCSS is used for rapid UI development with a responsive and clean design. SweetAlert2 provides elegant modal dialogs and alerts.
 * **State Management:** Session is persisted in `localStorage`. The application dynamically reacts to data changes by re-fetching and re-rendering specific DOM sections.
+* **Code Style (Beginner-Friendly):** The codebase intentionally avoids complex ES6+ syntax such as `.map()`, object destructuring, optional chaining, and nested ternary operators. It utilizes classic `for` loops and standard `if/else` conditions to ensure it is highly accessible and easy to understand for beginners.

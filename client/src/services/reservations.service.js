@@ -2,10 +2,16 @@ const API_URL = "http://localhost:3000/reservations";
 
 export const getReservations = async (userId = null) => {
     try {
-        const url = userId ? `${API_URL}?userId=${userId}` : API_URL;
-        const response = await fetch(url);
+        const response = await fetch(API_URL);
         if (!response.ok) throw new Error("Error fetching reservations");
-        return await response.json();
+        const data = await response.json();
+
+        // json-server v1+ hace tipado estricto, por lo que ?userId=2 (número) no hace match con "2" (string).
+        // Filtramos localmente para evitar este problema.
+        if (userId) {
+            return data.filter(r => String(r.userId) === String(userId));
+        }
+        return data;
     } catch (error) {
         console.error("getReservations error:", error);
         throw error;
